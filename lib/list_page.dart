@@ -88,7 +88,7 @@ class _StateListPage extends State<ListPage> {
                     }
                   }),
             )),
-            AdsWidget(Const.adsAnaPath+'color=${((Theme.of(context).brightness == Brightness.dark) ? "000000" : "FFFFFF")}'),
+            //AdsWidget(Const.adsAnaPath+'color=${((Theme.of(context).brightness == Brightness.dark) ? "000000" : "FFFFFF")}'),
           ],
         );
   }

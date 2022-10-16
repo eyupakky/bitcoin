@@ -112,7 +112,7 @@ class _StateDetailsPage extends State<DetailsPage> {
             height: 10,
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.45,
+            height: MediaQuery.of(context).size.height * 0.55,
             child: WebView(
                 initialUrl: '${Const.grafik}karsilik=USDT&body=FFFFFF&color=${((Theme.of(context).brightness == Brightness.dark)
                     ? "Dark" : "Light")}&coin=${widget.coin.symbol}',
@@ -127,17 +127,13 @@ class _StateDetailsPage extends State<DetailsPage> {
                                     url.contains("https://www.facebook.com/") ||
                                     url.contains("m.facebook.com/") ||
                                     url.contains("https://twitter.com")*/
-
-          SizedBox(
-            height: 15,
-          ),
         ],
       ),
-      bottomNavigationBar: Container(
-          color: (Theme.of(context).brightness == Brightness.dark)
-              ? Colors.black
-              : Colors.white,
-          child: AdsWidget(Const.adsPath +'color=${((Theme.of(context).brightness == Brightness.dark) ? "000000" : "FFFFFF")}')),
+     // bottomNavigationBar: Container(
+       //   color: (Theme.of(context).brightness == Brightness.dark)
+         //     ? Colors.black
+           //   : Colors.white,
+          //child: AdsWidget(Const.adsPath +'color=${((Theme.of(context).brightness == Brightness.dark) ? "000000" : "FFFFFF")}')),
     );
   }
 
