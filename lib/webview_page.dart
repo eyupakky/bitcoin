@@ -1,10 +1,9 @@
 import 'dart:async';
 
 import 'package:bitcoinsistemi/const.dart';
-import 'package:bitcoinsistemi/stream_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'notifier.dart';
@@ -37,12 +36,13 @@ class _StateWebViewPage extends State<WebViewPage> {
   late int x = 0;
   late int y = 0;
   late String? title = "";
+  final cart = CartModel();
+
   @override
   void initState() {
     super.initState();
-    final cart = CartModel();
-    cart.addListener(() {
-      this.webViewController.loadUrl(cart.url);
+    Provider.of<CartModel>(context, listen: false).addListener(() {
+      this.webViewController.loadUrl(Const.haberlerNotification);
     });
   }
   @override
@@ -52,16 +52,7 @@ class _StateWebViewPage extends State<WebViewPage> {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (BuildContext context) {
-      return StreamBuilder(
-          stream: widget.events!.stream,
-          builder: (context, snapshot) {
-            print(snapshot.data.toString());
-            if (snapshot.data != null && snapshot.data == 0) {
-              Clipboard.setData(
-                  ClipboardData(text: Const.haberlerNotification));
-              this.webViewController.loadUrl(Const.haberlerNotification);
-            }
-            return SafeArea(
+      return  SafeArea(
               child: Column(
                 children: [
                   ListTile(
@@ -87,7 +78,7 @@ class _StateWebViewPage extends State<WebViewPage> {
                   Stack(
                     children: [
                       SizedBox(
-                        height: MediaQuery.of(context).size.height-200,
+                        height: MediaQuery.of(context).size.height*0.75,
                         child: WebView(
                             key: _key,
                             initialUrl: Const.haberlerNotification,
@@ -101,8 +92,8 @@ class _StateWebViewPage extends State<WebViewPage> {
                             onPageStarted: (String url) async {
                               widget.events!.sink.add(10);
                               progress = true;
-                              if (!url.startsWith(
-                                  "https://www.bitcoinsistemi.com/")) {
+                              if (!url.startsWith("https://www.bitcoinsistemi.com/")
+                                  && !url.startsWith("https://en.bitcoinsistemi.com/") && url.isNotEmpty) {
                                 launch(url);
                                 this.webViewController.loadUrl(lastUrl);
                               }
@@ -127,7 +118,7 @@ class _StateWebViewPage extends State<WebViewPage> {
                               print('Page finished loading: $url');
                             }),
                       ),
-                      Visibility(
+                      /*Visibility(
                           visible:
                               ((snapshot.data != null && snapshot.data == 0) ||
                                   snapshot.data == 10),
@@ -140,13 +131,12 @@ class _StateWebViewPage extends State<WebViewPage> {
                                 color: Colors.red,
                               ),
                             ),
-                          )),
+                          )),*/
                     ],
                   )
                 ],
               ),
             );
-          });
     });
   }
 
@@ -155,7 +145,7 @@ class _StateWebViewPage extends State<WebViewPage> {
         name: 'Toaster',
         onMessageReceived: (JavascriptMessage message) {
           // ignore: deprecated_member_use
-          Scaffold.of(context).showSnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(message.message)),
           );
         });

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:bitcoinsistemi/coin_model.dart';
-import 'package:bitcoinsistemi/stream_model.dart';
-import 'package:bitcoinsistemi/webview_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +27,7 @@ class _StateDetailsPage extends State<DetailsPage> {
   bool favorite = false;
   late StreamController<bool> _events = new StreamController<bool>();
   late StreamController<String> webEvent = new StreamController<String>();
+
   @override
   void initState() {
     super.initState();
@@ -40,9 +40,9 @@ class _StateDetailsPage extends State<DetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('${Const.grafik}karsilik=USDT&body=FFFFFF&color=${((Theme.of(context).brightness == Brightness.dark)
-        ? "Dark" : "Light")}&coin=${widget.coin.symbol}');
-   return Scaffold(
+    print(
+        '${Const.grafik}karsilik=USDT&body=FFFFFF&color=${((Theme.of(context).brightness == Brightness.dark) ? "Dark" : "Light")}&coin=${widget.coin.symbol}');
+    return Scaffold(
       backgroundColor: Theme.of(context).primaryColorDark,
       body: Column(
         children: [
@@ -79,16 +79,16 @@ class _StateDetailsPage extends State<DetailsPage> {
           Row(
             children: [
               itemWidget(
-                "Market Hcm",
+                AppLocalizations.of(context)!.marketHcm,
                 (Const.isTry ? '\₺' : '\$') +
                     "${Const.k_m_b_generator(double.parse(widget.coin.marketCap.toString()))}",
               ),
               itemWidget(
-                  "24s Hacim",
+                  AppLocalizations.of(context)!.hacim24,
                   (Const.isTry ? '\₺' : '\$') +
                       "${Const.k_m_b_generator(double.parse(widget.coin.totalVolume!.toString()))}"),
               itemWidget(
-                  "Toplam Arz",
+                  AppLocalizations.of(context)!.toplamArz,
                   (Const.isTry ? '\₺' : '\$') +
                       "${Const.k_m_b_generator(double.parse(widget.coin.totalSupply!.toString()))}")
             ],
@@ -99,12 +99,12 @@ class _StateDetailsPage extends State<DetailsPage> {
           Row(
             children: [
               itemWidget(
-                "1s Dğşm",
+                AppLocalizations.of(context)!.dgsm1S,
                 "${f1.format(widget.coin.priceChangePercentage1hInCurrency != null ? widget.coin.priceChangePercentage1hInCurrency : 0)}\%",
               ),
-              itemWidget("24s Dğşm",
+              itemWidget(AppLocalizations.of(context)!.dgsm24Saat,
                   "${f1.format(widget.coin.marketCapChangePercentage24h != null ? widget.coin.marketCapChangePercentage24h : 0)}\%"),
-              itemWidget("7g Dğşm",
+              itemWidget(AppLocalizations.of(context)!.dgsm7Gun,
                   "${f1.format(widget.coin.priceChangePercentage7dInCurrency != null ? widget.coin.priceChangePercentage7dInCurrency : 0)}\%")
             ],
           ),
@@ -114,14 +114,13 @@ class _StateDetailsPage extends State<DetailsPage> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.55,
             child: WebView(
-                initialUrl: '${Const.grafik}karsilik=USDT&body=FFFFFF&color=${((Theme.of(context).brightness == Brightness.dark)
-                    ? "Dark" : "Light")}&coin=${widget.coin.symbol}',
+                initialUrl:
+                    '${Const.grafik}karsilik=USDT&body=FFFFFF&color=${((Theme.of(context).brightness == Brightness.dark) ? "Dark" : "Light")}&coin=${widget.coin.symbol}',
                 javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (controller) {
-                }),
+                onWebViewCreated: (controller) {}),
           ),
 
-              /*
+          /*
                             url.contains("api.whatsapp") ||
                                     url.contains("https://telegram.me/") ||
                                     url.contains("https://www.facebook.com/") ||
@@ -129,11 +128,11 @@ class _StateDetailsPage extends State<DetailsPage> {
                                     url.contains("https://twitter.com")*/
         ],
       ),
-     // bottomNavigationBar: Container(
-       //   color: (Theme.of(context).brightness == Brightness.dark)
-         //     ? Colors.black
-           //   : Colors.white,
-          //child: AdsWidget(Const.adsPath +'color=${((Theme.of(context).brightness == Brightness.dark) ? "000000" : "FFFFFF")}')),
+      // bottomNavigationBar: Container(
+      //   color: (Theme.of(context).brightness == Brightness.dark)
+      //     ? Colors.black
+      //   : Colors.white,
+      //child: AdsWidget(Const.adsPath +'color=${((Theme.of(context).brightness == Brightness.dark) ? "000000" : "FFFFFF")}')),
     );
   }
 
@@ -216,10 +215,10 @@ class _StateDetailsPage extends State<DetailsPage> {
     widget.listStream.sink.add(true);
     if (favorite) {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Favorilerden çıkarıldı.')));
+           SnackBar(content: Text(AppLocalizations.of(context)!.favoriSil)));
     } else {
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Favorilere eklendi.')));
+          .showSnackBar( SnackBar(content: Text(AppLocalizations.of(context)!.favoriEkle)));
     }
     favorite = !favorite;
     _events.sink.add(favorite);

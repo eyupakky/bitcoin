@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bitcoinsistemi/app_bar.dart';
 import 'package:bitcoinsistemi/coin_model.dart';
 import 'package:bitcoinsistemi/const.dart';
@@ -74,9 +74,9 @@ class _StateSettings extends State<Settings> {
                       delegate: SearchPage<CoinModel>(
                           onQueryUpdate: (s) => print(s),
                           items: Const.coinListModel,
-                          searchLabel: 'Koin Ara',
+                          searchLabel: AppLocalizations.of(context)!.koin_ara,
                           suggestion: Center(
-                            child: Text('Aramak istediğiniz koinin adını yazınız.'),
+                            child: Text(AppLocalizations.of(context)!.search_coin),
                           ),
                           failure: Center(
                             child: Text('No person found :('),
@@ -90,7 +90,7 @@ class _StateSettings extends State<Settings> {
               height: 15,
             ),
             Text(
-              "Gece Modunu Etkinleştir",
+              AppLocalizations.of(context)!.geceModunuEtkinlestir,
               style: TextStyle(color: Theme.of(context).primaryColor),
             ),
             SizedBox(
@@ -116,12 +116,12 @@ class _StateSettings extends State<Settings> {
                   addShared("darkMode", darkMode);
                 });
               },
-              itemsTitle: ["Pasif", "Etkin"],
+              itemsTitle: [AppLocalizations.of(context)!.pasif, AppLocalizations.of(context)!.etkin],
               values: [1, 2],
               groupStyle: GroupStyle(activeColor: Colors.blue, itemTitleStyle: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor)),
             ),
             Text(
-              "Para Birimi Seç",
+                AppLocalizations.of(context)!.paraBirimiSec,
               style: TextStyle(color: Theme.of(context).primaryColor),
             ),
             SizedBox(
@@ -144,7 +144,7 @@ class _StateSettings extends State<Settings> {
                 });
               },
               checkFirstElement: true,
-              itemsTitle: ["Türk Lirası (TRY)", "ABD Doları (USD)"],
+              itemsTitle: [AppLocalizations.of(context)!.turkLirasi, AppLocalizations.of(context)!.amerikanDolari],
               values: [1, 2],
               groupStyle: GroupStyle(activeColor: Colors.blue, itemTitleStyle: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor)),
             ),
@@ -157,7 +157,7 @@ class _StateSettings extends State<Settings> {
                 margin: EdgeInsets.only(left: 16),
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Gizlilik Politikası",
+                  AppLocalizations.of(context)!.gizlilik,
                   style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16),
                 ),
               ),

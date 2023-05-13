@@ -6,11 +6,16 @@ import 'package:bitcoinsistemi/webview_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'const.dart';
 import 'drawer_menu.dart';
 import 'list_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'notifier.dart';
+
 
 class HomePage extends StatefulWidget {
   StreamController<StreamModel> events;
@@ -31,7 +36,7 @@ class _StateHomePage extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   late StreamController<int> _events = new StreamController<int>();
   late StreamController<int> _events2 = new StreamController<int>();
-
+  final cart = CartModel();
 
   @override
   void initState() {
@@ -53,8 +58,13 @@ class _StateHomePage extends State<HomePage> {
         StreamModel model = StreamModel(darkMode, money);
         widget.events.sink.add(model);
         pageList.add(new ListPage(false, widget.isTry, this._scaffoldKey, key: UniqueKey()));
-        Const.haberler = Const.haberler + ((Theme.of(context).brightness == Brightness.dark) ? "&color=000000" : "&color=ffffff");
-        Const.analiz = Const.analiz + ((Theme.of(context).brightness == Brightness.dark) ? "&color=000000" : "&color=ffffff");
+        if(Localizations.localeOf(context).languageCode=="en"){
+          Const.haberler = "https://en." + Const.haberler + ((Theme.of(context).brightness == Brightness.dark) ? "&color=000000" : "&color=ffffff");
+          Const.analiz = "https://en." + Const.analizEn + ((Theme.of(context).brightness == Brightness.dark) ? "&color=000000" : "&color=ffffff");
+        } else {
+          Const.haberler = "https://www." + Const.haberler + ((Theme.of(context).brightness == Brightness.dark) ? "&color=000000" : "&color=ffffff");
+          Const.analiz ="https://www." + Const.analiz + ((Theme.of(context).brightness == Brightness.dark) ? "&color=000000" : "&color=ffffff");
+        }
         pageList.add(new WebViewPage(
           Const.haberler,
           MediaQuery.of(context).size.height*0.75,
@@ -146,6 +156,10 @@ class _StateHomePage extends State<HomePage> {
             if (i == 1) Const.haberlerNotification = Const.haberler;
             else if (i == 2) Const.haberlerNotification = Const.analiz;
           });
+          if(i==1 || i ==2){
+            Provider.of<CartModel>(context, listen: false)
+                .change(Const.haberlerNotification);
+          }
         },
         backgroundColor: Theme.of(context).primaryColorDark,
         type: BottomNavigationBarType.fixed,
@@ -155,22 +169,22 @@ class _StateHomePage extends State<HomePage> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.attach_money, size: 25),
-            label: 'Koinler',
+            label: AppLocalizations.of(context)!.coinler,
           ),
           BottomNavigationBarItem(
             // TODO dil
             icon: Icon(Icons.article, size: 25),
-            label: 'Haberler',
+            label: AppLocalizations.of(context)!.haberler,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard, size: 25),
             // TODO dil
-            label: 'Analiz',
+            label: AppLocalizations.of(context)!.analiz,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.stars, size: 25),
             // TODO dil
-            label: 'Porföyüm',
+            label: AppLocalizations.of(context)!.portfoyum,
           ),
         ],
       ),

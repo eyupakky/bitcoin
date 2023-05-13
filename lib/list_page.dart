@@ -5,14 +5,13 @@ import 'package:bitcoinsistemi/coin_model.dart';
 import 'package:bitcoinsistemi/const.dart';
 import 'package:bitcoinsistemi/list_item.dart';
 import 'package:bitcoinsistemi/progress_widget.dart';
-import 'package:bitcoinsistemi/stream_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:search_page/search_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'ads_widget.dart';
 import 'app_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ListPage extends StatefulWidget {
   late bool isFavori;
@@ -56,9 +55,9 @@ class _StateListPage extends State<ListPage> {
                       delegate: SearchPage<CoinModel>(
                           onQueryUpdate: (s) => print(s),
                           items: Const.coinListModel,
-                          searchLabel: 'Koin Ara',
+                          searchLabel: AppLocalizations.of(context)!.koin_ara,
                           suggestion: Center(
-                            child: Text('Aramak istediğiniz koinin adını yazınız.'),
+                            child: Text(AppLocalizations.of(context)!.search_coin),
                           ),
                           failure: Center(
                             child: Text('No person found :('),
@@ -103,33 +102,33 @@ class _StateListPage extends State<ListPage> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 5),
                 child: Text(
-                  "İsim",
-                  style: TextStyle(color: Colors.grey, fontSize: 13),
+                  AppLocalizations.of(context)!.isim,
+                  style: TextStyle(color: Colors.grey, fontSize: 11),
                 ),
               )),
           Expanded(
               flex: 2,
               child: Padding(
                 padding: const EdgeInsets.all(3.0),
-                child: Text("Hacim(24s)", style: TextStyle(color: Colors.grey, fontSize: 13)),
+                child: Text(AppLocalizations.of(context)!.hacim24, style: TextStyle(color: Colors.grey, fontSize: 13)),
               )),
           Expanded(
               flex: 3,
               child: Padding(
                 padding: const EdgeInsets.all(3.0),
-                child: Text("Fiyat Market Hcm", style: TextStyle(color: Colors.grey, fontSize: 13)),
+                child: Text(AppLocalizations.of(context)!.fiyatMarketHcm, style: TextStyle(color: Colors.grey, fontSize: 13)),
               )),
           Expanded(
               flex: 2,
               child: Padding(
                 padding: const EdgeInsets.all(3.0),
-                child: Text("1s Dğşm", style: TextStyle(color: Colors.grey, fontSize: 13)),
+                child: Text(AppLocalizations.of(context)!.dgsm1S, style: TextStyle(color: Colors.grey, fontSize: 13)),
               )),
           Expanded(
               flex: 2,
               child: Padding(
                 padding: const EdgeInsets.all(3.0),
-                child: Text("24s Dğşm", style: TextStyle(color: Colors.grey, fontSize: 13)),
+                child: Text(AppLocalizations.of(context)!.dgsm24Saat, style: TextStyle(color: Colors.grey, fontSize: 13)),
               )),
         ],
       ),

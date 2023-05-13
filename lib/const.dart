@@ -4,9 +4,10 @@ import 'package:bitcoinsistemi/coin_model.dart';
 import 'package:bitcoinsistemi/news_model.dart';
 
 class Const {
-  static String analiz = "https://www.bitcoinsistemi.com/analiz?appios=yes";
-  static String haberler = "https://www.bitcoinsistemi.com?appios=yes";
-  static String haberlerNotification = "https://www.bitcoinsistemi.com?appios=yes";
+  static String analiz = "bitcoinsistemi.com/analiz?appios=yes";
+  static String analizEn = "bitcoinsistemi.com/analysis?appios=yes";
+  static String haberler = "bitcoinsistemi.com?appios=yes";
+  static String haberlerNotification = "";
   static String grafik = "https://www.bitcoinsistemi.com/uygulama_grafik_ios.php?";
   static String coinList = "api.coingecko.com";
   static String path = "/api/v3/coins/markets";

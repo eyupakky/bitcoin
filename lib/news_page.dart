@@ -6,11 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:search_page/search_page.dart';
-import 'app_bar.dart';
-import 'coin_model.dart';
 import 'const.dart';
-import 'list_item.dart';
 import 'news_details.dart';
 
 class NewsPage extends StatefulWidget {

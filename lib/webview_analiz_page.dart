@@ -1,9 +1,8 @@
 import 'dart:async';
-
 import 'package:bitcoinsistemi/const.dart';
-import 'package:bitcoinsistemi/stream_model.dart';
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'notifier.dart';
@@ -28,23 +27,23 @@ class WebViewAnalizPage extends StatefulWidget {
 }
 
 class _StateWebViewPage extends State<WebViewAnalizPage> {
-  final _key = UniqueKey();
-  bool progress = true;
   String lastUrl = "";
   int value = 0;
   late WebViewController webViewController;
   late int x = 0;
   late int y = 0;
   late String? title = "";
+  String url = "";
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final cart = CartModel();
 
   @override
   void initState() {
     super.initState();
-    final cart = CartModel();
 
-    cart.addListener(() {
-      this.webViewController.loadUrl(cart.url);
+    Provider.of<CartModel>(context, listen: false).addListener(() {
+      this.webViewController.loadUrl(Const.analiz);
+      EasyLoading.show(status: 'loading...');
     });
   }
 
@@ -55,9 +54,6 @@ class _StateWebViewPage extends State<WebViewAnalizPage> {
 
   @override
   Widget build(BuildContext context) {
-    Const.analiz +=
-        '&body=${((Theme.of(context).brightness == Brightness.dark) ? "000000" : "ff0000")}';
-
     return Builder(builder: (BuildContext context) {
       return SafeArea(
         child: Column(
@@ -67,8 +63,7 @@ class _StateWebViewPage extends State<WebViewAnalizPage> {
                 "$title",
                 maxLines: 1,
                 style: TextStyle(
-                    color:
-                    (Theme.of(context).brightness == Brightness.dark)
+                    color: (Theme.of(context).brightness == Brightness.dark)
                         ? Colors.white
                         : Colors.black),
               ),
@@ -98,9 +93,10 @@ class _StateWebViewPage extends State<WebViewAnalizPage> {
                       },
                       onPageStarted: (String url) async {
                         widget.events!.sink.add(10);
-                        progress = true;
                         if (!url.startsWith(
-                            "https://www.bitcoinsistemi.com/")) {
+                                "https://www.bitcoinsistemi.com/") &&
+                            !url.startsWith("https://en.bitcoinsistemi.com/") &&
+                            url.isNotEmpty) {
                           launch(url);
                           this.webViewController.loadUrl(lastUrl);
                         }
@@ -119,24 +115,10 @@ class _StateWebViewPage extends State<WebViewAnalizPage> {
                             .webViewController
                             .getTitle()
                             .then((value) => title = value);
-                       setState(() {
-                         progress = false;
-                         lastUrl = url;
-                       });
+                        EasyLoading.dismiss(animation: false);
+                        lastUrl = url;
                       }),
                 ),
-                Visibility(
-                    visible:progress,
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.5,
-                      width: MediaQuery.of(context).size.width,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 8,
-                          color: Colors.red,
-                        ),
-                      ),
-                    )),
               ],
             )
           ],
@@ -150,7 +132,7 @@ class _StateWebViewPage extends State<WebViewAnalizPage> {
         name: 'Toaster',
         onMessageReceived: (JavascriptMessage message) {
           // ignore: deprecated_member_use
-          Scaffold.of(context).showSnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(message.message)),
           );
         });

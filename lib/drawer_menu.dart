@@ -1,5 +1,6 @@
 import 'package:bitcoinsistemi/home_page.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 class DrawerMenu extends StatefulWidget {
   final IndexFunctions indexFunction;
@@ -29,7 +30,7 @@ class _StateDrawerMenu extends State<DrawerMenu> {
               child: Column(children: [
                 Container(margin: EdgeInsets.all(8), width: 100, height: 100, child: Center(child: Image.asset("asset/bitcoinsistem.png"))),
                 Text(
-                  "Bitcoin Sistemi",
+                AppLocalizations.of(context)!.appTitle,
                   style: TextStyle(color: Theme.of(context).primaryColor),
                 )
               ]),
@@ -40,7 +41,7 @@ class _StateDrawerMenu extends State<DrawerMenu> {
                 color: Colors.grey,
               ),
               title: Text(
-                'Ana Sayfa',
+                AppLocalizations.of(context)!.anaSayfa,
                 style: TextStyle(color: Theme.of(context).primaryColor),
               ),
               onTap: () {
@@ -55,7 +56,7 @@ class _StateDrawerMenu extends State<DrawerMenu> {
                 color: Colors.grey,
               ),
               title: Text(
-                'Ayarlar',
+                AppLocalizations.of(context)!.ayarlar,
                 style: TextStyle(color: Theme.of(context).primaryColor),
               ),
               onTap: () {
